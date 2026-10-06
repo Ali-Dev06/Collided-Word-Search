@@ -1,0 +1,19 @@
+Recherche de mots dans un fichier texte
+
+Un algorithme de recherche doit trouver un mot dans un texte le plus vite possible.
+Le principe est simple : on compare le mot cherche avec le texte, lettre par lettre.
+Quand les lettres ne correspondent pas, un bon algorithme saute plusieurs positions d'un coup.
+
+L'algorithme de Horspool compare le mot en partant de la fin.
+Il utilise un petit tableau pour savoir de combien de lettres il peut avancer.
+C'est un algorithme rapide, surtout quand le mot cherche est long.
+
+Une chaine de caracteres est une suite de lettres, de chiffres et de symboles.
+Chercher une chaine dans une autre chaine, c'est verifier qu'elle apparait en un seul bloc.
+Dans cette phrase, le mot table contient les lettres le, mais ce n'est pas le mot le.
+
+Un eleve boit un cafe chaud, puis un autre cafe avec un ami.
+Le benchmark mesure le temps de recherche sur la machine.
+
+Welcome to my world HAHAH
+Welcome my est une phrase anglaise coupee en deux : les mots ne sont pas cote a cote.
