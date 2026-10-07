@@ -1,26 +1,37 @@
+#include <chrono>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
-#include "recherche.h"
+#include "recherche_find_file.h"
+#include "recherche_horspool_file.h"
+#include "recherche_naive_file.h"
 using namespace std;
+using namespace chrono;
 
-const size_t MAX_AFFICHE = 10;
+const int REPETITIONS = 50;
 
-// Affiche la ligne et la colonne des premières positions.
-// La colonne compte les caractères (les octets de suite UTF-8 sont ignorés).
-void afficher(const string& texte, const vector<size_t>& positions) {
-    size_t ligne = 1, debutLigne = 0, i = 0;
-    for (size_t k = 0; k < positions.size() && k < MAX_AFFICHE; k++) {
-        for (; i < positions[k]; i++) {
-            if (texte[i] == '\n') {
-                ligne++;
-                debutLigne = i + 1;
-            }
-        }
-        size_t colonne = 1;
-        for (size_t c = debutLigne; c < positions[k]; c++)
-            if ((texte[c] & 0xC0) != 0x80) colonne++;
-        cout << "ligne " << ligne << " colonne " << colonne << endl;
+// Lance l'algorithme plusieurs fois, retourne le temps moyen en ms.
+template <typename Fonction>
+double mesurer(Fonction f, const string& texte, const string& mot, bool premierSeulement,
+               vector<size_t>& positions) {
+    auto debut = steady_clock::now();
+    for (int r = 0; r < REPETITIONS; r++) positions = f(texte, mot, premierSeulement);
+    duration<double, milli> duree = steady_clock::now() - debut;
+    return duree.count() / REPETITIONS;
+}
+
+void afficher(const string& nom, const string& texte, const vector<size_t>& positions,
+              bool tous, double ms) {
+    cout << left << setw(10) << nom;
+    if (positions.empty()) {
+        cout << setw(24) << "Non";
+    } else {
+        size_t ligne, colonne;
+        ligneColonne(texte, positions[0], ligne, colonne);
+        string texteTrouve = tous ? to_string(positions.size()) + " occ., 1re : " : "Oui, ";
+        cout << texteTrouve << "ligne " << ligne << " col " << colonne << "  ";
     }
+    cout << fixed << setprecision(4) << ms << " ms" << endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -57,21 +68,15 @@ int main(int argc, char* argv[]) {
         mot = minuscules(mot);
     }
 
-    // Sans -tous, la recherche s'arrête au premier mot trouvé.
-    vector<size_t> positions = horspool(texte, mot, true, !tous);
+    // Sans -tous, chaque algorithme s'arrête à la première occurrence.
+    bool premier = !tous;
+    vector<size_t> p1, p2, p3;
+    double t1 = mesurer(rechercheNaive, texte, mot, premier, p1);
+    double t2 = mesurer(rechercheHorspool, texte, mot, premier, p2);
+    double t3 = mesurer(rechercheFind, texte, mot, premier, p3);
 
-    if (!tous) {
-        if (positions.empty()) {
-            cout << "Non" << endl;
-        } else {
-            cout << "Oui" << endl;
-            afficher(texte, positions);
-        }
-    } else {
-        cout << positions.size() << " occurrence(s)" << endl;
-        afficher(texte, positions);
-        if (positions.size() > MAX_AFFICHE)
-            cout << "et " << positions.size() - MAX_AFFICHE << " autres" << endl;
-    }
+    afficher("Naive", texte, p1, tous, t1);
+    afficher("Horspool", texte, p2, tous, t2);
+    afficher("Find", texte, p3, tous, t3);
     return 0;
 }

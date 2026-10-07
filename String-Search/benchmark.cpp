@@ -3,7 +3,9 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include "recherche.h"
+#include "recherche_find_file.h"
+#include "recherche_horspool_file.h"
+#include "recherche_naive_file.h"
 using namespace std;
 using namespace chrono;
 
@@ -42,26 +44,31 @@ int main(int argc, char* argv[]) {
 
     cout << texte.size() << " caracteres" << endl << endl;
     cout << left << setw(largeur) << "Motif" << setw(10) << "Trouves" << setw(12) << "Naive ms"
-         << "Horspool ms" << endl;
+         << setw(14) << "Horspool ms" << "Find ms" << endl;
 
-    double total[2] = {0, 0};
+    auto naive = [](const string& t, const string& m) { return rechercheNaive(t, m); };
+    auto horspool = [](const string& t, const string& m) { return rechercheHorspool(t, m); };
+    auto find = [](const string& t, const string& m) { return rechercheFind(t, m); };
+
+    double total[3] = {0, 0, 0};
     cout << fixed << setprecision(3);
     for (const string& motif : motifs) {
-        size_t t[2];
-        double ms[2] = {
-            mesurer(rechercheNaive, texte, motif, t[0]),
-            mesurer(rechercheHorspool, texte, motif, t[1]),
+        size_t t[3];
+        double ms[3] = {
+            mesurer(naive, texte, motif, t[0]),
+            mesurer(horspool, texte, motif, t[1]),
+            mesurer(find, texte, motif, t[2]),
         };
         cout << left << setw(largeur) << motif << setw(10) << t[0];
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             total[i] += ms[i];
-            cout << setw(12) << ms[i];
+            cout << setw(i == 2 ? 0 : (i == 1 ? 14 : 12)) << ms[i];
         }
-        if (t[0] != t[1]) cout << "ERREUR";
+        if (t[0] != t[1] || t[0] != t[2]) cout << " ERREUR";
         cout << endl;
     }
     cout << left << setw(largeur + 10) << "Total";
-    for (int i = 0; i < 2; i++) cout << setw(12) << total[i];
+    for (int i = 0; i < 3; i++) cout << setw(i == 1 ? 14 : 12) << total[i];
     cout << endl;
     return 0;
 }
