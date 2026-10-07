@@ -29,6 +29,41 @@ Le dépôt contient 2 projets, un rapport et un guide.
 
 Résultat principal sur un texte de 14,8 Mo : `find` est le plus rapide presque partout, et Horspool gagne sur les motifs très longs. Le détail est dans le rapport.
 
+## Benchmarks
+
+Temps mesurés avec `chrono`, en ms, médiane de 5 exécutions (Intel Core Ultra 5 125H, Linux, g++ 11.4, `-O2`). Sur une autre machine, les valeurs changent mais le classement reste le même.
+
+**Projet 1** : test des 127 419 mots de `texte_riche.txt`.
+
+| Motif | Mots trouvés | Boucle | Find | Plus rapide |
+|---|---:|---:|---:|---|
+| `cote` | 1 035 | **2,59** | 5,26 | boucle ×2,0 |
+| `prg` | 152 | **2,65** | 4,91 | boucle ×1,9 |
+| `abc` | 40 | **2,58** | 5,43 | boucle ×2,1 |
+| `xyz` | 0 | **2,60** | 4,48 | boucle ×1,7 |
+| `compteur` | 5 | **2,59** | 6,07 | boucle ×2,3 |
+| `tion` | 2 046 | **2,52** | 5,39 | boucle ×2,1 |
+| `aaa` | 279 | **2,49** | 5,77 | boucle ×2,3 |
+| **Total** | | **18,03** | 37,31 | boucle ×2,1 |
+
+**Projet 2** : recherche dans un texte de 14 811 920 caractères.
+
+| Motif | Occurrences | Naïf | Horspool | Find | Plus rapide |
+|---|---:|---:|---:|---:|---|
+| `le` | 217 500 | 18,27 | 43,69 | **9,53** | find ×1,9 |
+| `de` | 223 460 | 17,64 | 40,29 | **7,33** | find ×2,4 |
+| `pour` | 25 880 | 13,69 | 16,53 | **5,15** | find ×2,7 |
+| `france` | 2 080 | 11,26 | 14,18 | **2,53** | find ×4,4 |
+| `ment` | 35 440 | 14,98 | 19,14 | **5,16** | find ×2,9 |
+| `abracadabra` | 20 | 22,35 | **6,22** | 7,40 | Horspool ×3,6 |
+| `constitutionnellement` | 0 | 15,51 | **4,59** | 5,27 | Horspool ×3,4 |
+| `zzzzzz` | 0 | 8,94 | 7,91 | **0,67** | find ×13,3 |
+| **Total** | | 122,63 | 152,54 | **43,04** | find ×2,8 |
+
+- `find` est le plus rapide presque partout.
+- Horspool gagne sur les motifs très longs, mais il est le plus lent sur les motifs de 2 lettres.
+- Les tableaux complets (aussi sur le petit texte de 0,7 Mo) sont dans `Rapport/Rapport.pdf`.
+
 ## Lancer
 
 Il faut `g++` (C++17). Exemple pour le projet 2 :
