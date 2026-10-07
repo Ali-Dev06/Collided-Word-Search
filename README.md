@@ -72,6 +72,5 @@ cd String-Search
 g++ -O2 -std=c++17 -o recherche_fichier recherche_fichier.cpp
 .\recherche_fichier texte_riche.txt france
 ```
-Toutes les commandes (test, benchmark, projet 1) sont dans `GUIDE.md`.
 
 
