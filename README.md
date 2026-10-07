@@ -33,9 +33,9 @@ Résultat principal sur `Roman.txt` : `find` est le plus rapide presque partout,
 
 Temps mesurés avec `chrono`, médiane de 5 exécutions (Intel Core Ultra 5 125H, Linux, g++ 11.4, `-O2`). Sur une autre machine, les valeurs changent mais le classement reste le même.
 
-**Projet 1** : temps d'un appel en ns, sur les 10 paires de `main.cpp` (1 000 000 d'appels par paire).
+**Projet 1** : temps d'un appel en nanosecondes (ns), sur les 10 paires de `main.cpp` (1 000 000 d'appels par paire).
 
-| Mot1 | Mot2 | Résultat | Boucle | Find | Plus rapide |
+| Mot1 | Mot2 | Résultat | Boucle (ns) | Find (ns) | Plus rapide |
 |---|---|---|---:|---:|---|
 | `Compteur` | `Cote` | Oui | **66,0** | 96,5 | boucle ×1,5 |
 | `Compteur` | `COTE` | Oui | **64,8** | 91,9 | boucle ×1,4 |
@@ -49,9 +49,9 @@ Temps mesurés avec `chrono`, médiane de 5 exécutions (Intel Core Ultra 5 125H
 | `abc` | `ACB` | Non | **17,6** | 62,3 | boucle ×3,5 |
 | **Total** | | | **410,0** | 892,4 | boucle ×2,2 |
 
-**Projet 2** : recherche dans `Roman.txt` (5,85 Mo, 999 923 mots).
+**Projet 2** : temps d'une recherche complète en millisecondes (ms), dans `Roman.txt` (5,85 Mo, 999 923 mots).
 
-| Motif | Occurrences | Naïf | Horspool | Find | Plus rapide |
+| Motif | Occurrences | Naïf (ms) | Horspool (ms) | Find (ms) | Plus rapide |
 |---|---:|---:|---:|---:|---|
 | `le` | 85 449 | 12,86 | 25,65 | **6,28** | find ×2,0 |
 | `de` | 84 265 | 10,97 | 26,02 | **5,70** | find ×1,9 |
