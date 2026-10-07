@@ -27,7 +27,7 @@ Le dépôt contient 2 projets, un rapport et un guide.
 - Textes d'essai : `texte.txt`, `texte_riche.txt` (0,7 Mo) et `Roman.txt` (1 000 000 de mots).
 - Explications : `ALGOSEARCHFILE.md`.
 
-Résultat principal sur un texte de 14,8 Mo : `find` est le plus rapide presque partout, et Horspool gagne sur les motifs très longs. Le détail est dans le rapport.
+Résultat principal sur `Roman.txt` : `find` est le plus rapide presque partout, et Horspool gagne sur les motifs très longs. Le détail est dans le rapport.
 
 ## Benchmarks
 
@@ -46,23 +46,23 @@ Temps mesurés avec `chrono`, en ms, médiane de 5 exécutions (Intel Core Ultra
 | `aaa` | 279 | **2,49** | 5,77 | boucle ×2,3 |
 | **Total** | | **18,03** | 37,31 | boucle ×2,1 |
 
-**Projet 2** : recherche dans un texte de 14 811 920 caractères.
+**Projet 2** : recherche dans `Roman.txt` (5,85 Mo, 999 923 mots).
 
 | Motif | Occurrences | Naïf | Horspool | Find | Plus rapide |
 |---|---:|---:|---:|---:|---|
-| `le` | 217 500 | 18,27 | 43,69 | **9,53** | find ×1,9 |
-| `de` | 223 460 | 17,64 | 40,29 | **7,33** | find ×2,4 |
-| `pour` | 25 880 | 13,69 | 16,53 | **5,15** | find ×2,7 |
-| `france` | 2 080 | 11,26 | 14,18 | **2,53** | find ×4,4 |
-| `ment` | 35 440 | 14,98 | 19,14 | **5,16** | find ×2,9 |
-| `abracadabra` | 20 | 22,35 | **6,22** | 7,40 | Horspool ×3,6 |
-| `constitutionnellement` | 0 | 15,51 | **4,59** | 5,27 | Horspool ×3,4 |
-| `zzzzzz` | 0 | 8,94 | 7,91 | **0,67** | find ×13,3 |
-| **Total** | | 122,63 | 152,54 | **43,04** | find ×2,8 |
+| `le` | 85 449 | 12,86 | 25,65 | **6,28** | find ×2,0 |
+| `de` | 84 265 | 10,97 | 26,02 | **5,70** | find ×1,9 |
+| `pour` | 11 670 | 10,09 | 10,28 | **3,88** | find ×2,6 |
+| `france` | 994 | 7,57 | 8,98 | **1,71** | find ×4,4 |
+| `ment` | 14 949 | 9,98 | 11,58 | **3,88** | find ×2,6 |
+| `abracadabra` | 1 | 14,36 | **4,07** | 4,78 | Horspool ×3,5 |
+| `constitutionnellement` | 3 | 10,97 | **3,09** | 3,72 | Horspool ×3,6 |
+| `zzzzzz` | 0 | 6,69 | 4,70 | **0,56** | find ×11,8 |
+| **Total** | | 83,50 | 94,36 | **30,51** | find ×2,7 |
 
 - `find` est le plus rapide presque partout.
 - Horspool gagne sur les motifs très longs, mais il est le plus lent sur les motifs de 2 lettres.
-- Les tableaux complets (aussi sur le petit texte de 0,7 Mo) sont dans `Rapport/Rapport.pdf`.
+- Le détail et l'explication des algorithmes sont dans `Rapport/Rapport.pdf`.
 
 ## Lancer
 
@@ -72,5 +72,8 @@ cd String-Search
 g++ -O2 -std=c++17 -o recherche_fichier recherche_fichier.cpp
 .\recherche_fichier texte_riche.txt france
 ```
+Toutes les commandes (test, benchmark, projet 1) sont dans `GUIDE.md`.
 
+## Auteur
 
+Ali Zouhdi, ILISI, FST Mohammedia.
