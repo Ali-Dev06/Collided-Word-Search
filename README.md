@@ -74,6 +74,4 @@ g++ -O2 -std=c++17 -o recherche_fichier recherche_fichier.cpp
 ```
 Toutes les commandes (test, benchmark, projet 1) sont dans `GUIDE.md`.
 
-## Auteur
 
-Ali Zouhdi, ILISI, FST Mohammedia.
