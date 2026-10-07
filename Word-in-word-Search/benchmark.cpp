@@ -11,7 +11,6 @@ using namespace chrono;
 
 const int REPETITIONS = 5;
 
-// Compte les mots qui contiennent le motif. Retourne le temps moyen en ms.
 template <typename Fonction>
 double mesurer(Fonction f, const vector<string>& mots, const string& motif, long& trouves) {
     long total = 0;

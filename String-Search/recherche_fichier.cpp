@@ -10,7 +10,6 @@ using namespace chrono;
 
 const int REPETITIONS = 50;
 
-// Lance l'algorithme plusieurs fois, retourne le temps moyen en ms.
 template <typename Fonction>
 double mesurer(Fonction f, const string& texte, const string& mot, bool premierSeulement,
                vector<size_t>& positions) {
@@ -28,8 +27,8 @@ void afficher(const string& nom, const string& texte, const vector<size_t>& posi
     } else {
         size_t ligne, colonne;
         ligneColonne(texte, positions[0], ligne, colonne);
-        string texteTrouve = tous ? to_string(positions.size()) + " occ., 1re : " : "Oui, ";
-        cout << texteTrouve << "ligne " << ligne << " col " << colonne << "  ";
+        string debut = tous ? to_string(positions.size()) + " occ., 1re : " : "Oui, ";
+        cout << debut << "ligne " << ligne << " col " << colonne << "  ";
     }
     cout << fixed << setprecision(4) << ms << " ms" << endl;
 }
@@ -68,7 +67,6 @@ int main(int argc, char* argv[]) {
         mot = minuscules(mot);
     }
 
-    // Sans -tous, chaque algorithme s'arrête à la première occurrence.
     bool premier = !tous;
     vector<size_t> p1, p2, p3;
     double t1 = mesurer(rechercheNaive, texte, mot, premier, p1);

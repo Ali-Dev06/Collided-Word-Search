@@ -1,9 +1,6 @@
 #pragma once
 #include "recherche_commun.h"
 
-// Algorithme naïf : compare le motif à chaque position du texte.
-// Retourne la position de chaque occurrence (chevauchements inclus).
-// premierSeulement : s'arrête à la première occurrence trouvée.
 inline vector<size_t> rechercheNaive(const string& texte, const string& motif,
                                      bool premierSeulement = false) {
     vector<size_t> res;

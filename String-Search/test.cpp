@@ -25,7 +25,6 @@ int main() {
         vector<size_t> find = rechercheFind(t.texte, t.motif);
         bool ok = naif.size() == t.attendu && naif == horspool && naif == find;
 
-        // premierSeulement : une seule position, la même que la première
         size_t unique = t.attendu > 0 ? 1 : 0;
         vector<size_t> a = rechercheNaive(t.texte, t.motif, true);
         vector<size_t> b = rechercheHorspool(t.texte, t.motif, true);

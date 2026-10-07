@@ -1,15 +1,13 @@
 #pragma once
 #include "recherche_commun.h"
 
-// Horspool : compare à partir de la fin du motif et saute plusieurs lettres.
-// Retourne la position de chaque occurrence (chevauchements inclus).
-// premierSeulement : s'arrête à la première occurrence trouvée.
 inline vector<size_t> rechercheHorspool(const string& texte, const string& motif,
                                         bool premierSeulement = false) {
     vector<size_t> res;
     size_t n = texte.size(), p = motif.size();
     if (p == 0 || p > n) return res;
 
+    // distance de chaque lettre à la fin du motif, dernière lettre exclue
     size_t saut[256];
     for (size_t& s : saut) s = p;
     for (size_t i = 0; i + 1 < p; i++) saut[(unsigned char)motif[i]] = p - 1 - i;
