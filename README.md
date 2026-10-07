@@ -15,7 +15,7 @@ Le dépôt contient 2 projets, un rapport et un guide.
 ## Projet 1 : mot dans un mot
 
 - 2 versions de la même fonction : une boucle à 2 pointeurs (`sous_sequence.h`) et une version `find` (`sous_sequence2.h`).
-- La boucle est environ 2 fois plus rapide que `find` (127 419 mots testés).
+- La boucle est environ 2 fois plus rapide que `find` (10 paires de mots testées).
 - `main.cpp` teste 10 cas. `benchmark.cpp` compare les 2 versions.
 - Explications : `ALGORITHME.md` et `ALGO2.md`.
 
@@ -31,20 +31,23 @@ Résultat principal sur `Roman.txt` : `find` est le plus rapide presque partout,
 
 ## Benchmarks
 
-Temps mesurés avec `chrono`, en ms, médiane de 5 exécutions (Intel Core Ultra 5 125H, Linux, g++ 11.4, `-O2`). Sur une autre machine, les valeurs changent mais le classement reste le même.
+Temps mesurés avec `chrono`, médiane de 5 exécutions (Intel Core Ultra 5 125H, Linux, g++ 11.4, `-O2`). Sur une autre machine, les valeurs changent mais le classement reste le même.
 
-**Projet 1** : test des 127 419 mots de `texte_riche.txt`.
+**Projet 1** : temps d'un appel en ns, sur les 10 paires de `main.cpp` (1 000 000 d'appels par paire).
 
-| Motif | Mots trouvés | Boucle | Find | Plus rapide |
-|---|---:|---:|---:|---|
-| `cote` | 1 035 | **2,59** | 5,26 | boucle ×2,0 |
-| `prg` | 152 | **2,65** | 4,91 | boucle ×1,9 |
-| `abc` | 40 | **2,58** | 5,43 | boucle ×2,1 |
-| `xyz` | 0 | **2,60** | 4,48 | boucle ×1,7 |
-| `compteur` | 5 | **2,59** | 6,07 | boucle ×2,3 |
-| `tion` | 2 046 | **2,52** | 5,39 | boucle ×2,1 |
-| `aaa` | 279 | **2,49** | 5,77 | boucle ×2,3 |
-| **Total** | | **18,03** | 37,31 | boucle ×2,1 |
+| Mot1 | Mot2 | Résultat | Boucle | Find | Plus rapide |
+|---|---|---|---:|---:|---|
+| `Compteur` | `Cote` | Oui | **66,0** | 96,5 | boucle ×1,5 |
+| `Compteur` | `COTE` | Oui | **64,8** | 91,9 | boucle ×1,4 |
+| `Compteur` | `cMpR` | Oui | **44,6** | 90,0 | boucle ×2,0 |
+| `Compteur` | `compteur` | Oui | **42,8** | 176,4 | boucle ×4,1 |
+| `aabbcc` | `abc` | Oui | **26,0** | 77,7 | boucle ×3,0 |
+| `Compteur` | `Cotte` | Non | **45,1** | 91,1 | boucle ×2,0 |
+| `Compteur` | `Cetop` | Non | **43,2** | 81,6 | boucle ×1,9 |
+| `Compteur` | `Z` | Non | **42,4** | 49,6 | boucle ×1,2 |
+| `Cot` | `Cote` | Non | **17,5** | 75,3 | boucle ×4,3 |
+| `abc` | `ACB` | Non | **17,6** | 62,3 | boucle ×3,5 |
+| **Total** | | | **410,0** | 892,4 | boucle ×2,2 |
 
 **Projet 2** : recherche dans `Roman.txt` (5,85 Mo, 999 923 mots).
 
@@ -70,5 +73,5 @@ Il faut `g++` (C++17). Exemple pour le projet 2 :
 ```
 cd String-Search
 g++ -O2 -std=c++17 -o recherche_fichier recherche_fichier.cpp
-.\recherche_fichier texte_riche.txt france
+.\recherche_fichier Roman.txt france
 ```
